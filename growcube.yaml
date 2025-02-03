@@ -19,8 +19,8 @@ ota:
     password: "1ASD"
 
 wifi:
-  ssid: "VFNL-0B3E1F"
-  password: "PHANY7RNJAXMM41"
+  ssid: "your wifi ssid"
+  password: "your wifi password"
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -104,7 +104,7 @@ sensor:
   - platform: ads1115
     multiplexer: 'A3_GND'
     gain: 6.144
-    name: Soil sensor - A" 
+    name: "Soil sensor - A" 
     unit_of_measurement: '%'
     filters:
     - calibrate_linear:
@@ -132,7 +132,7 @@ sensor:
     update_interval: 2s    
     
   - platform: aht10
-    variant: AHT10
+    variant: AHT20
     temperature:
       name: "GrowCube Temperature"
     humidity:
