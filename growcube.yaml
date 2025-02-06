@@ -1,49 +1,48 @@
 esphome:
   name: growcube
-  platform: ESP8266
-  board: nodemcuv2 
+  friendly_name: GrowCube
   on_boot:
     then:
       # read the RTC time once when the system boots
-      ds1307.read_time:
+      - ds1307.read_time
+
+esp8266:
+  board: nodemcuv2
 
 # Enable logging
 logger:
 
 # Enable Home Assistant API
 api:
-  password: "1ASD"
+  encryption:
+    key: ""
 
 ota:
   - platform: esphome
-    password: "1ASD"
+    password: ""
 
 wifi:
-  ssid: "your wifi ssid"
-  password: "your wifi password"
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Growcube Fallback Hotspot"
-    password: "oarcosWoKlMv"
+    password: ""
 
 captive_portal:
-    
-    
-    
-    
+
 i2c:
-  sda: GPIO14  # Adjust based on your ESP8266 pinout
-  scl: GPIO12  # 12 SURE
+  sda: GPIO14
+  scl: GPIO12
   scan: True  # Automatically scan for devices on the I2C bus
-  
-    
-# Example configuration entry
+
 time:
   - platform: ds1307
     # repeated synchronization is not necessary unless the external RTC
     # is much more accurate than the internal clock
-    update_interval: never
+    update_interval: false
+    
   - platform: homeassistant
     # instead try to synchronize via network repeatedly ...
     on_time_sync:
@@ -51,10 +50,33 @@ time:
         # ... and update the RTC when the synchronization was successful
         ds1307.write_time:
 
-
 ads1115:
   - address: 0x48
+
+pca9554:
+  id: 'pca9554a_device'
+  pin_count: 16 
+  address: 0x20  # Default I2C address for PCF9555
+
 sensor:
+  - platform: wifi_signal #reports the WiFi signal strength/RSSI in dB
+    name: "WiFi Signal dB"
+    id: wifi_signal_db
+    update_interval: 60s
+    device_class: 'signal_strength'
+    unit_of_measurement: 'dBm'
+    entity_category: 'diagnostic'
+
+  # Reports the WiFi signal strength in %
+  - platform: copy
+    source_id: wifi_signal_db
+    name: "WiFi Signal Percent"
+    icon: "mdi:wifi"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: 'diagnostic'
+
   - platform: ads1115
     multiplexer: 'A0_GND'
     gain: 6.144
@@ -69,7 +91,6 @@ sensor:
         else if (x > 100) return 100;
         else return (x);
     accuracy_decimals: 0    
-    
     
   - platform: ads1115
     multiplexer: 'A1_GND'
@@ -129,7 +150,7 @@ sensor:
       name: "INA219 Shunt Voltage"
     max_voltage: 32.0V
     max_current: 3.2A
-    update_interval: 2s    
+    update_interval: 2s
     
   - platform: aht10
     variant: AHT20
@@ -138,19 +159,23 @@ sensor:
     humidity:
       name: "GrowCube Humidity"
     update_interval: 60s
-    
-pca9554:
-  id: 'pca9554a_device'
-  pin_count: 16 
-  address: 0x20  # Default I2C address for PCF9555
 
+light:
+  - platform: status_led
+    name: "Status LED"
+    id: 'red_led'
+    internal: true
+    pin:
+      pca9554: pca9554a_device
+      number: 2
+      mode:
+        output: true
+      inverted: false
 
-
-      
 switch:
-  # PCF9555 Pin #0 to #15
   - platform: gpio
     name: "PCF9555 Pin #0"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 0
@@ -160,6 +185,7 @@ switch:
 
   - platform: gpio
     name: "Buzzer"
+    id: 'buzzer'
     pin:
       pca9554: pca9554a_device
       number: 1
@@ -168,25 +194,19 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "Red LED"
-    pin:
-      pca9554: pca9554a_device
-      number: 2
-      mode:
-        output: true
-      inverted: false
-
-  - platform: gpio
     name: "Blue LED"
+    id: 'blue_led'
+    internal: true
     pin:
-      pca9554: pca9554a_device
-      number: 3
-      mode:
-        output: true
-      inverted: false
+          pca9554: pca9554a_device
+          number: 3
+          mode:
+            output: true
+          inverted: false
 
   - platform: gpio
     name: "PCF9555 Pin #4"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 4
@@ -195,7 +215,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "Micro Pump"
+    name: "Pump"
     pin:
       pca9554: pca9554a_device
       number: 5
@@ -204,7 +224,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "Selonoid A"
+    name: "Solenoid A"
     pin:
       pca9554: pca9554a_device
       number: 6
@@ -213,7 +233,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "Selonoid B"
+    name: "Solenoid B"
     pin:
       pca9554: pca9554a_device
       number: 7
@@ -223,6 +243,7 @@ switch:
 
   - platform: gpio
     name: "PCF9555 Pin #8"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 8
@@ -231,7 +252,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "Selonoid C"
+    name: "Solenoid C"
     pin:
       pca9554: pca9554a_device
       number: 9
@@ -240,7 +261,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "Selonoid D"
+    name: "Solenoid D"
     pin:
       pca9554: pca9554a_device
       number: 10
@@ -250,6 +271,7 @@ switch:
 
   - platform: gpio
     name: "PCF9555 Pin #11"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 11
@@ -259,6 +281,7 @@ switch:
 
   - platform: gpio
     name: "PCF9555 Pin #12"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 12
@@ -268,6 +291,7 @@ switch:
 
   - platform: gpio
     name: "PCF9555 Pin #13"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 13
@@ -277,6 +301,7 @@ switch:
 
   - platform: gpio
     name: "PCF9555 Pin #14"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 14
@@ -286,10 +311,25 @@ switch:
 
   - platform: gpio
     name: "PCF9555 Pin #15"
+    internal: true
     pin:
       pca9554: pca9554a_device
       number: 15
       mode:
         output: true
-      inverted: false      
-      
+      inverted: false
+
+interval:
+  - interval: 0.5s
+    then:
+      if:
+        condition:
+          - wifi.connected:
+        then:
+          if:
+            condition:
+              - switch.is_off: blue_led
+            then:
+              - switch.turn_on: blue_led
+        else:
+          - switch.toggle: blue_led
