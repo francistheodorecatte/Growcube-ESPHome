@@ -160,6 +160,17 @@ sensor:
       name: "GrowCube Humidity"
     update_interval: 60s
 
+binary_sensor:
+  - platform: gpio
+    name: "User Button" #routed to external 'User' button near grille for AHT20
+    id: 'user_button'
+    pin:
+      pca9554: pca9554a_device
+      number: 8
+      mode:
+        input: true
+      inverted: false
+
 light:
   - platform: status_led
     name: "Status LED"
@@ -174,7 +185,7 @@ light:
 
 switch:
   - platform: gpio
-    name: "PCF9555 Pin #0"
+    name: "PCF9555 Pin #0" #not routed
     internal: true
     pin:
       pca9554: pca9554a_device
@@ -205,7 +216,7 @@ switch:
           inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #4"
+    name: "PCF9555 Pin #4" #routed near unpopulated Q122 (transistor for unpopulated relay) on empty pad for a 4.7k pulldown resistor
     internal: true
     pin:
       pca9554: pca9554a_device
@@ -242,16 +253,6 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #8"
-    internal: true
-    pin:
-      pca9554: pca9554a_device
-      number: 8
-      mode:
-        output: true
-      inverted: false
-
-  - platform: gpio
     name: "Solenoid C"
     pin:
       pca9554: pca9554a_device
@@ -270,7 +271,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #11"
+    name: "PCF9555 Pin #11" #not routed
     internal: true
     pin:
       pca9554: pca9554a_device
@@ -280,7 +281,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #12"
+    name: "PCF9555 Pin #12" #not routed
     internal: true
     pin:
       pca9554: pca9554a_device
@@ -290,7 +291,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #13"
+    name: "PCF9555 Pin #13" #not routed
     internal: true
     pin:
       pca9554: pca9554a_device
@@ -300,7 +301,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #14"
+    name: "PCF9555 Pin #14" #not routed
     internal: true
     pin:
       pca9554: pca9554a_device
@@ -310,7 +311,7 @@ switch:
       inverted: false
 
   - platform: gpio
-    name: "PCF9555 Pin #15"
+    name: "PCF9555 Pin #15" #not routed
     internal: true
     pin:
       pca9554: pca9554a_device
