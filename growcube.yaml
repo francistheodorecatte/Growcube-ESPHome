@@ -169,7 +169,7 @@ binary_sensor:
       pca9554: pca9554a_device
       number: 0
       mode:
-        output: true
+        input: true
       inverted: false
       
   - platform: gpio
