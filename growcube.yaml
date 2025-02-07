@@ -13,6 +13,9 @@ esphome:
 
 esp8266:
   board: nodemcuv2
+  # Unused ESP12F IO pins:
+  # IO4 & IO5 (both floating)
+  # IO0 is connected to unpopulated switch footprint labeled 'FLASH'
 
 # Enable logging
 logger:
