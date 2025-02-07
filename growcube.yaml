@@ -20,11 +20,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: ""
+    key: "" #see here to generate a random key: https://esphome.io/components/api.html#configuration-variables
 
 ota:
   - platform: esphome
-    password: ""
+    password: "" #set to your desired password
 
 wifi:
   ssid: !secret wifi_ssid
@@ -33,7 +33,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Growcube Fallback Hotspot"
-    password: ""
+    password: "" #set to your desired password
 
 captive_portal:
 
