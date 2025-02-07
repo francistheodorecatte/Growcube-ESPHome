@@ -27,7 +27,7 @@ api:
 
 ota:
   - platform: esphome
-    password: "" #set to your desired password
+    password: "password" #reset to your desired password
 
 wifi:
   ssid: !secret wifi_ssid
@@ -36,7 +36,7 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "Growcube Fallback Hotspot"
-    password: "" #set to your desired password
+    password: "88888888" #factory default per the sticker on the bottom
 
 captive_portal:
 
