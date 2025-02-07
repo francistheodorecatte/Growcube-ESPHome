@@ -171,6 +171,15 @@ binary_sensor:
       mode:
         input: true
       inverted: false
+    on_press:
+      then:
+        - button.press: restart
+    on_multi_click: 
+      - timing:
+        - ON for 5s to 10s
+        - OFF for at least 0.5s
+        then:
+          - button.press: factory_reset
       
   - platform: gpio
     name: "User Button" #routed to 'User' button near grille for AHT20
@@ -193,6 +202,15 @@ light:
       mode:
         output: true
       inverted: false
+
+button:
+  - platform: restart
+    name: "GrowCube Restart"
+    id: 'restart'
+
+  - platform: factory_reset
+    internal: True
+    id: 'factory_reset'
 
 switch:
   - platform: gpio
