@@ -41,7 +41,7 @@ time:
   - platform: ds1307
     # repeated synchronization is not necessary unless the external RTC
     # is much more accurate than the internal clock
-    update_interval: false
+    update_interval: never
     
   - platform: homeassistant
     # instead try to synchronize via network repeatedly ...
@@ -189,7 +189,7 @@ binary_sensor:
       number: 8
       mode:
         input: true
-      inverted: false
+      inverted: true
 
 light:
   - platform: status_led
