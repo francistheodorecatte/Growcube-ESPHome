@@ -162,7 +162,18 @@ sensor:
 
 binary_sensor:
   - platform: gpio
-    name: "User Button" #routed to external 'User' button near grille for AHT20
+    name: "EEPROM Button" #routed to 'EEPROM' button accessible through poke hole near grille for AHT20
+    id: 'eeprom_button'
+    internal: true
+    pin:
+      pca9554: pca9554a_device
+      number: 0
+      mode:
+        output: true
+      inverted: false
+      
+  - platform: gpio
+    name: "User Button" #routed to 'User' button near grille for AHT20
     id: 'user_button'
     pin:
       pca9554: pca9554a_device
@@ -184,16 +195,6 @@ light:
       inverted: false
 
 switch:
-  - platform: gpio
-    name: "PCF9555 Pin #0" #not routed
-    internal: true
-    pin:
-      pca9554: pca9554a_device
-      number: 0
-      mode:
-        output: true
-      inverted: false
-
   - platform: gpio
     name: "Buzzer"
     id: 'buzzer'
