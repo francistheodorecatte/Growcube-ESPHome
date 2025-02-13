@@ -14,8 +14,9 @@ esphome:
 esp8266:
   board: nodemcuv2
   # Unused ESP12F IO pins:
-  # IO6-IO11 (SDIO pins)
-  # IO0 is connected to unpopulated switch footprint labeled 'FLASH'
+  # IO6-IO11 (SDIO pins); not routed.
+  # IO0 is connected to unpopulated switch footprint labeled 'FLASH'.
+  # The external ATMLH14 16Kbit i2c EEPROM is also unable to be used by ESPHome.
 
 # Enable logging
 logger:
