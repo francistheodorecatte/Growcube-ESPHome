@@ -14,9 +14,10 @@ esphome:
 esp8266:
   board: nodemcuv2
   # Unused ESP12F IO pins:
+  # I04 & IO5; not routed
   # IO6-IO11 (SDIO pins); not routed.
-  # IO0 is connected to unpopulated switch footprint labeled 'FLASH'.
-  # The external ATMLH14 16Kbit i2c EEPROM is also unable to be used by ESPHome.
+  # IO0; routed to unpopulated switch footprint labeled 'FLASH'.
+  # There's also an external ATMLH14 16Kbit (2KB) i2c EEPROM which is unable to be used by ESPHome.
 
 # Enable logging
 logger:
@@ -199,6 +200,27 @@ binary_sensor:
       mode:
         input: true
       inverted: true
+
+# For adding an M10, 115mm tall dual-float switch to the tank:
+#  - platform: gpio
+#    name: "Float A"
+#    id: 'float_a'
+#    pin:
+#      number: GPIO4
+#      mode:
+#        input: True
+#        pullup: True
+#      inverted: True
+
+#  - platform: gpio
+#    name: "Float B"
+#    id: 'float_B'
+#    pin:
+#      number: GPIO5
+#      mode:
+#        input: True
+#        pullup: True
+#      inverted: True
 
 light:
   - platform: status_led
