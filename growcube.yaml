@@ -90,7 +90,8 @@ sensor:
   - platform: ads1115
     multiplexer: 'A0_GND'
     gain: 6.144
-    name: "Soil sensor - D" 
+    name: "Soil sensor - D"
+    device_class: "moisture"
     unit_of_measurement: '%'
     filters:
     - calibrate_linear:
@@ -105,7 +106,8 @@ sensor:
   - platform: ads1115
     multiplexer: 'A1_GND'
     gain: 6.144
-    name: "Soil sensor - B" 
+    name: "Soil sensor - B"
+    device_class: "moisture"
     unit_of_measurement: '%'
     filters:
     - calibrate_linear:
@@ -120,7 +122,8 @@ sensor:
   - platform: ads1115
     multiplexer: 'A2_GND'
     gain: 6.144
-    name: "Soil sensor - C" 
+    name: "Soil sensor - C"
+    device_class: "moisture"
     unit_of_measurement: '%'
     filters:
     - calibrate_linear:
@@ -135,7 +138,8 @@ sensor:
   - platform: ads1115
     multiplexer: 'A3_GND'
     gain: 6.144
-    name: "Soil sensor - A" 
+    name: "Soil sensor - A"
+    device_class: "moisture"
     unit_of_measurement: '%'
     filters:
     - calibrate_linear:
@@ -151,13 +155,13 @@ sensor:
     address: 0x40
     shunt_resistance: 0.1 ohm
     current:
-      name: "INA219 Current"
+      name: "Pump Current"
     power:
-      name: "INA219 Power"
+      name: "Pump Power"
     bus_voltage:
-      name: "INA219 Bus Voltage"
+      name: "Pump Bus Voltage"
     shunt_voltage:
-      name: "INA219 Shunt Voltage"
+      name: "Pump Shunt Voltage"
     max_voltage: 32.0V
     max_current: 3.2A
     update_interval: 2s
